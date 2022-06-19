@@ -180,7 +180,8 @@ if __name__ == '__main__':
     #model = get_yolo5('s')
     #st.success('Loading the model.. Done!')
 
-    st.title('Oring Streamlit App')
+    st.title('Gear Box Oring detection App')
+    st.write('Author：IE_Jeff_Ma')
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'last.pt', help='model path(s)')
     parser.add_argument('--source', type=str, default=ROOT / 'test1.png', help='file/dir/URL/glob, 0 for webcam')
@@ -213,20 +214,20 @@ if __name__ == '__main__':
     #print_args(FILE.stem, opt)
     print(opt)
 
-    source = ("Detección de imagen", "Detección de vídeo", "Detección por WebCam", "Detección por URL")
+    source = ("Detection image", "Detection vídeo", "Detection WebCam", "Detection URL")
     source_index = st.sidebar.selectbox("seleccionar entrada", range(
         len(source)), format_func=lambda x: source[x])
 
     if source_index == 0:
         uploaded_file = st.sidebar.file_uploader(
-            "cargar imagen", type=['png', 'jpeg', 'jpg'])
+            "image", type=['png', 'jpeg', 'jpg'])
         if uploaded_file is not None:
             is_valid = True
             """our_image = Image.open(uploaded_file)
             st.image(our_image,width=300)
             opt.source = our_image"""
 
-            with st.spinner(text='carga de recursos...'):
+            with st.spinner(text='waiting for...'):
                 st.sidebar.image(uploaded_file)
                 picture = Image.open(uploaded_file)
                 picture = picture.save(f'data/images/{uploaded_file.name}')
@@ -235,10 +236,10 @@ if __name__ == '__main__':
             is_valid = False
 
     elif source_index == 1:
-        uploaded_file = st.sidebar.file_uploader("subir video", type=['mp4', 'mov','avi'])
+        uploaded_file = st.sidebar.file_uploader("video", type=['mp4', 'mov','avi'])
         if uploaded_file is not None:
             is_valid = True
-            with st.spinner(text='carga de recursos...'):
+            with st.spinner(text='waiting for...'):
                 st.sidebar.video(uploaded_file)
                 with open(os.path.join("data", "videos", uploaded_file.name), "wb") as f:
                     f.write(uploaded_file.getbuffer())
@@ -339,14 +340,14 @@ if __name__ == '__main__':
         
     if is_valid:
         print('valid')
-        if st.button('Comenzar detección'):
+        if st.button('点击进行识别'):
             detect.main(opt)
 
             if source_index == 0:
-                with st.spinner(text='Preparando Imagen'):
+                with st.spinner(text='照片上传中'):
                     for img in os.listdir(get_detection_folder()):
                         st.image(str(Path(f'{get_detection_folder()}') / img))
-
+                    st.success("恭喜您，已成功进行识别检测，数据已传输")
                     st.balloons()
 
             elif source_index == 1:
