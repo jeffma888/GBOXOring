@@ -182,7 +182,7 @@ if __name__ == '__main__':
 
     st.title('Oring Streamlit App')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'weithts/last.pt', help='model path(s)')
+    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'last.pt', help='model path(s)')
     parser.add_argument('--source', type=str, default=ROOT / 'test1.png', help='file/dir/URL/glob, 0 for webcam')
     #parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
